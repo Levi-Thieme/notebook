@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Notes.TodoEntryPage"
+             BackgroundColor="White"
+             Title="List">
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Entry x:Name="taskEntry" 
+                       Placeholder="Task Name" 
+                       WidthRequest="250" 
+                       HorizontalOptions="StartAndExpand"
+                       TextColor="Black"/>
+                <Button 
+                    Clicked="OnAddTaskButton_Clicked" 
+                    Text="Add" 
+                    HorizontalOptions="End"
+                    BackgroundColor="DodgerBlue"
+                    BorderColor="Black"
+                    BorderWidth="1"
+                    Margin="5"/>
+            </StackLayout>
+            <ListView x:Name="taskListView" ItemsSource="{Binding Tasks}"
+                      ItemTapped="RemoveTappedItem" 
+                      Margin="10">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="{Binding Name}"/>
+                            <Button x:Name="DeleteEntryButton"  Clicked="DeleteEntryButton_Clicked" Text="X"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="Save" 
+                    Clicked="OnSaveButton_Clicked"
+                    BackgroundColor="DodgerBlue"
+                    BorderColor="Black"
+                    BorderWidth="1"
+                    Margin="5"/>
+            <Button Text="Delete" 
+                    Clicked="OnDeleteButton_Clicked"
+                    BackgroundColor="DodgerBlue"
+                    BorderColor="Black"
+                    BorderWidth="1"
+                    Margin="5"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

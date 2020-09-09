@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Notes.NotesPage"
+             Title="Mino"
+             BackgroundColor="GhostWhite">
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical">
+            <StackLayout Orientation="Horizontal" 
+                         HorizontalOptions="Center">
+                <Entry x:Name="NameEntry"
+                    BindingContext="EntryName"
+                    Placeholder="Name"
+                    WidthRequest="160"
+                    TextColor="Black"
+                    PlaceholderColor="Gray"/>
+                <Button Text="+ Note" 
+                        Clicked="OnNoteAddedClicked"
+                        BackgroundColor="DodgerBlue"
+                        BorderColor="Black"
+                        WidthRequest="80"
+                        BorderWidth="1"
+                        Margin="5"/>
+                <Button Text="+ List" 
+                        Clicked="OnTodoAdded_Clicked"
+                        BackgroundColor="DodgerBlue"
+                        BorderColor="Black"
+                        WidthRequest="80"
+                        BorderWidth="1"
+                        Margin="5"
+                        IsVisible="False"/>
+            </StackLayout>
+            <ListView   x:Name="listView"
+                        ItemsSource="{Binding Notes}"
+                Margin="20"
+                ItemSelected="OnListViewItemSelected"
+                VerticalOptions="Start"
+                HeightRequest="300">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Name}"
+                          Detail="{Binding Date}"
+                          TextColor="DodgerBlue"
+                          DetailColor="Black"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
