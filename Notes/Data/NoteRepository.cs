@@ -1,72 +1,41 @@
 ﻿using Notes.Models;
+using SQLite;
+using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using static System.Environment;
+using Xamarin.Forms;
 
 namespace Notes.Data
 {
     public class NoteRepository : INoteRepository
     {
-        private readonly string AppDataPath = GetFolderPath(SpecialFolder.LocalApplicationData);
+        private readonly SQLiteConnection database;
+        private readonly TableQuery<Note> notes;
+
+        public NoteRepository()
+        {
+            var databaseConnectionService = DependencyService.Get<IDatabaseConnection>();
+            database = databaseConnectionService.Create();
+            database.CreateTable<Note>();
+            notes = database.Table<Note>();
+        }
 
         public IEnumerable<Note> GetNotes()
         {
-            var files = GetNoteFiles();
-            return files.Select(ConvertFileToNote);
+            return notes.ToList();
         }
 
         public void SaveNote(Note note)
         {
-            if (IsNewNote(note))
-                SaveNewNote(note);
+            note.LastModified = DateTime.Now.ToString();
+            if (notes.FirstOrDefault(n => n.Name == note.Name) != null)
+                database.Update(note);
             else
-                Save(note);
+                database.Insert(note);
         }
 
         public void DeleteNote(Note note)
         {
-            string notePath = GetNotePath(note.Filename);
-            if (File.Exists(notePath))
-                File.Delete(notePath);
-        }
-
-        private void SaveNewNote(Note note)
-        {
-            note.Filename = note.Name;
-            Save(note);
-        }
-
-        private void Save(Note note)
-        {
-            FileInfo file = new FileInfo(GetNotePath(note.Filename));
-            CreateOrOverwriteTextFile(file, note.Text);
-        }
-
-        private void CreateOrOverwriteTextFile(FileInfo file, string text)
-        {
-            File.WriteAllText(file.FullName, text);
-        }
-
-        private bool IsNewNote(Note note) => string.IsNullOrEmpty(note.Filename);
-
-        private string GetNotePath(string filename) => Path.Combine(AppDataPath, filename);
-
-        private IEnumerable<FileInfo> GetNoteFiles()
-        {
-            return Directory.EnumerateFiles(AppDataPath)
-                .Select(filepath => new FileInfo(filepath));
-        }
-
-        private Note ConvertFileToNote(FileInfo file)
-        {
-            return new Note
-            {
-                Name = file.Name,
-                Filename = file.Name,
-                Date = file.LastWriteTime,
-                Text = File.ReadAllText(file.FullName)
-            };
+            database.Delete<Note>(note.Name);
         }
     }
 }

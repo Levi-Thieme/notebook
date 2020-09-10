@@ -5,29 +5,21 @@
              Title="{Binding Name}"
              BackgroundColor="White">
     <StackLayout Margin="20" Orientation="Vertical">
-        <Editor     Placeholder="Enter your note"
-                    VerticalOptions="Start"
-                    HeightRequest="500"
-                    IsSpellCheckEnabled="True"
-                    Text="{Binding Text}"
-                    TextColor="Black"
-                    PlaceholderColor="DarkGray"/>
-        <StackLayout Orientation="Horizontal" VerticalOptions="End">
-            <Button Text="Save"
-                    Clicked="OnSaveButtonClicked"
-                    HorizontalOptions="EndAndExpand"
-                    TextColor="Black"
-                    BackgroundColor="DodgerBlue"
-                    BorderColor="Black"
-                    BorderWidth="1"/>
-            <Button Grid.Column="1"
-                    Text="Delete"
-                    Clicked="OnDeleteButtonClicked"
-                    HorizontalOptions="StartAndExpand"
-                    TextColor="Black"
-                    BackgroundColor="DodgerBlue"
-                    BorderColor="Black"
-                    BorderWidth="1"/>
-        </StackLayout>
+        <Editor     
+            Placeholder="Enter your note"
+            VerticalOptions="Start"
+            HeightRequest="500"
+            IsSpellCheckEnabled="True"
+            Text="{Binding Content}"
+            TextColor="Black"
+            PlaceholderColor="DarkGray"/>
+        <Button
+            Text="Delete"
+            Clicked="OnDeleteButtonClicked"
+            HorizontalOptions="CenterAndExpand"
+            TextColor="Black"
+            BackgroundColor="DodgerBlue"
+            BorderColor="Black"
+            BorderWidth="1"/>
     </StackLayout>
 </ContentPage>

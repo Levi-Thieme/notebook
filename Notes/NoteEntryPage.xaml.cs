@@ -14,16 +14,16 @@ namespace Notes
             InitializeComponent();
         }
 
-        async void OnSaveButtonClicked(object sender, EventArgs e)
-        {
-            NoteRepository.SaveNote((Note)BindingContext);
-            await Navigation.PopAsync();
-        }
-
         async void OnDeleteButtonClicked(object sender, EventArgs e)
         {
             NoteRepository.DeleteNote((Note)BindingContext);
             await Navigation.PopAsync();
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            NoteRepository.SaveNote((Note)BindingContext);
         }
     }
 }

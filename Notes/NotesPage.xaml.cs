@@ -1,9 +1,7 @@
 ﻿using Notes.Data;
 using Notes.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using Xamarin.Forms;
 
@@ -11,7 +9,7 @@ namespace Notes
 {
     public partial class NotesPage : ContentPage
     {
-        public string EntryName { get; set; }
+        public string EntryName { get; set; } = string.Empty;
         public ObservableCollection<Note> Notes { get; set; }
         private readonly INoteRepository NoteRepository;
 
@@ -24,7 +22,8 @@ namespace Notes
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            Notes = new ObservableCollection<Note>(NoteRepository.GetNotes());
+            var notes = NoteRepository.GetNotes();
+            Notes = new ObservableCollection<Note>(notes);
             listView.ItemsSource = Notes;
         }
 
@@ -52,7 +51,7 @@ namespace Notes
 
         async void OnNoteAddedClicked(object sender, EventArgs e)
         {
-            string name = NameEntry.Text.Trim();
+            string name = EntryName.Trim();
             if (NoteExists(name))
                 await DisplayAlert("Note Already Exists", $"{name} already exists.", "Cancel");
             else if (!string.IsNullOrEmpty(name))
@@ -62,7 +61,7 @@ namespace Notes
                     NoteRepository = NoteRepository,
                     BindingContext = new Note { Name = name }
                 });
-                NameEntry.Text = "";
+                EntryName = string.Empty;
             }
         }
 
@@ -80,6 +79,10 @@ namespace Notes
                 NameEntry.Text = "";
             }
         }
-    }
 
+        private void DeleteMenuItem_Clicked(object sender, EventArgs e)
+        {
+            
+        }
+    }
 }

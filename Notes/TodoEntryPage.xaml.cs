@@ -39,11 +39,6 @@ namespace Notes
 
         async void OnDeleteButton_Clicked(object sender, EventArgs e)
         {
-            var todo = (Todo)BindingContext;
-            if (File.Exists(todo.Filename))
-            {
-                File.Delete(todo.Filename);
-            }
             await Navigation.PopAsync();
         }
 

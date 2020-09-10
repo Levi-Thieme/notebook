@@ -9,7 +9,7 @@
             <StackLayout Orientation="Horizontal" 
                          HorizontalOptions="Center">
                 <Entry x:Name="NameEntry"
-                    BindingContext="EntryName"
+                    BindingContext="{Binding EntryName}"
                     Placeholder="Name"
                     WidthRequest="160"
                     TextColor="Black"
@@ -39,9 +39,13 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextCell Text="{Binding Name}"
-                          Detail="{Binding Date}"
-                          TextColor="DodgerBlue"
-                          DetailColor="Black"/>
+                                  Detail="{Binding LastModified}"
+                                  TextColor="DodgerBlue"
+                                  DetailColor="Black">
+                            <TextCell.ContextActions>
+                                <MenuItem Text="Delete" Clicked="DeleteMenuItem_Clicked"/>
+                            </TextCell.ContextActions>
+                        </TextCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
