@@ -1,25 +1,42 @@
 ﻿using Notes.Models;
+using SQLite;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using Xamarin.Forms;
 
 namespace Notes.Data
 {
     public class TodoRepository : ITodoRepository
     {
-        public void DeleteNote(Todo note)
+        private readonly SQLiteConnection database;
+        private readonly TableQuery<Todo> todos;
+
+
+        public TodoRepository()
         {
-            throw new NotImplementedException();
+            var databaseConnectionService = DependencyService.Get<IDatabaseConnection>();
+            database = databaseConnectionService.Create();
+            database.CreateTable<Todo>();
+            todos = database.Table<Todo>();
+        }
+
+        public void DeleteNote(Todo todo)
+        {
+            database.Delete<Todo>(todo);
         }
 
         public IEnumerable<Todo> GetTodos()
         {
-            throw new NotImplementedException();
+            return todos.ToList();
         }
 
-        public void SaveNote(Todo note)
+        public void SaveNote(Todo todo)
         {
-            throw new NotImplementedException();
+            todo.LastModified = DateTime.Now.ToString();
+            if (todos.FirstOrDefault(t => t.Name == todo.Name) != null)
+                database.Update(todo);
+            else
+                database.Insert(todo);
         }
     }
 }

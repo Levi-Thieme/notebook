@@ -35,7 +35,7 @@ namespace Notes.Data
 
         public void DeleteNote(Note note)
         {
-            database.Delete<Note>(note.Name);
+            database.Delete(note);
         }
     }
 }

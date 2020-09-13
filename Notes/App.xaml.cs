@@ -1,6 +1,4 @@
 ﻿using Notes.Data;
-using System;
-using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,9 +11,28 @@ namespace Notes
         public App()
         {
             InitializeComponent();
-            DependencyService.Register<IDatabaseConnection, DatabaseConnection>();
+            RegisterRepositoryDependencies();
+            MainPage = CreateMainPage();
+        }
+
+        private Page CreateMainPage()
+        {
+            var tabbedPage = new TabbedPage();
+            tabbedPage.Children.Add(CreateNotesPage());
+            return tabbedPage;
+        }
+
+        private Page CreateNotesPage()
+        {
             var notesRepository = new NoteRepository();
-            MainPage = new NavigationPage(new NotesPage(notesRepository));
+            var notesPage = new NotesPage(notesRepository);
+            var page = new NavigationPage(notesPage) { Title = notesPage.Title };
+            return page;
+        }
+
+        private void RegisterRepositoryDependencies()
+        {
+            DependencyService.Register<IDatabaseConnection, DatabaseConnection>();
         }
 
         protected override void OnStart()

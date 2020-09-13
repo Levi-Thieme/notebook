@@ -1,14 +1,14 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 
 namespace Notes.Models
 {
     public class Todo : Note
     {
-        public ObservableCollection<Task> Tasks { get; set; }
+        public List<Task> Tasks { get; set; }
 
         public Todo()
         {
-            Tasks = new ObservableCollection<Task>();
+            Tasks = new List<Task>();
         }
         public void RemoveTask(Task task)
         {

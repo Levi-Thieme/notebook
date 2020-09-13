@@ -1,9 +1,7 @@
 ﻿using System;
 
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 using Notes.Models;
-using System.IO;
 
 namespace Notes
 {
@@ -28,22 +26,6 @@ namespace Notes
         private void RemoveTappedItem(object sender, ItemTappedEventArgs e)
         {
             ((Todo)BindingContext).RemoveTask(e.Item as Task);
-        }
-
-        async void OnSaveButton_Clicked(object sender, EventArgs e)
-        {
-            var todo = (Todo)BindingContext;
-            
-            await Navigation.PopAsync();
-        }
-
-        async void OnDeleteButton_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PopAsync();
-        }
-
-        private void DeleteEntryButton_Clicked(object sender, EventArgs e)
-        {
         }
     }
 }
