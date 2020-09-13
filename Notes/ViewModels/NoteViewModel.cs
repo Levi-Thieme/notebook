@@ -2,6 +2,7 @@
 using Notes.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -30,13 +31,20 @@ namespace Notes.ViewModels
 
         private void CreateNote(string name)
         {
-            var note = new Note { Name = name, LastModified = DateTime.Now.ToString(), Content = string.Empty };
+            var note = new Note { Name = name.Trim(), LastModified = DateTime.Now.ToString(), Content = string.Empty };
             NewNoteName = string.Empty;
             NoteRepository.SaveNote(note);
             Notes.Add(note);
         }
 
-        private bool IsValidName(string name) => name != null && name.Trim() != string.Empty;
+        private bool IsValidName(string name)
+        {
+            return name != null
+                && name.Trim() != string.Empty &&
+                !NoteWithNameExists(name.Trim());
+        }
+
+        private bool NoteWithNameExists(string name) => Notes.FirstOrDefault(note => note.Name == name) != null;
 
         private void DeleteNote(Note note)
         {
