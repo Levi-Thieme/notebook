@@ -10,13 +10,13 @@ namespace Notes.Tests
     [TestClass]
     public class NoteViewModelTests
     {
-        private Mock<INoteRepository> mockNoteRepository;
+        private Mock<IRepository<Note>> mockNoteRepository;
         private NoteViewModel noteViewModel;
 
         [TestInitialize]
         public void Initialize()
         {
-            mockNoteRepository = new Mock<INoteRepository>();
+            mockNoteRepository = new Mock<IRepository<Note>>();
             noteViewModel = new NoteViewModel(mockNoteRepository.Object);
         }
 
@@ -40,7 +40,7 @@ namespace Notes.Tests
             {
                 noteViewModel.CreateNoteCommand.Execute("test");
 
-                mockNoteRepository.Verify(repo => repo.SaveNote(It.Is<Note>(note => note.Name == "test")), Times.Once);
+                mockNoteRepository.Verify(repo => repo.Save(It.Is<Note>(note => note.Name == "test")), Times.Once);
             }
 
             [TestMethod]
@@ -79,7 +79,7 @@ namespace Notes.Tests
 
                 noteViewModel.DeleteNoteCommand.Execute(note);
 
-                mockNoteRepository.Verify(repo => repo.DeleteNote(note), Times.Once);
+                mockNoteRepository.Verify(repo => repo.Delete(note), Times.Once);
             }
 
             [TestMethod]

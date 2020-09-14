@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace Notes.Data
 {
-    public class TodoRepository : ITodoRepository
+    public class TodoRepository : IRepository<Todo>
     {
         private readonly SQLiteConnection database;
         private readonly TableQuery<Todo> todos;
@@ -20,23 +20,23 @@ namespace Notes.Data
             todos = database.Table<Todo>();
         }
 
-        public void DeleteNote(Todo todo)
-        {
-            database.Delete<Todo>(todo);
-        }
-
-        public IEnumerable<Todo> GetTodos()
+        public IEnumerable<Todo> All()
         {
             return todos.ToList();
         }
 
-        public void SaveNote(Todo todo)
+        public void Save(Todo todo)
         {
             todo.LastModified = DateTime.Now.ToString();
             if (todos.FirstOrDefault(t => t.Name == todo.Name) != null)
                 database.Update(todo);
             else
                 database.Insert(todo);
+        }
+
+        public void Delete(Todo todo)
+        {
+            database.Delete<Todo>(todo);
         }
     }
 }

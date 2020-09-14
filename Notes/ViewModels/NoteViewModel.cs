@@ -18,13 +18,13 @@ namespace Notes.ViewModels
         public ObservableCollection<Note> Notes { get; set; }
         public ICommand CreateNoteCommand { get; set; }
         public ICommand DeleteNoteCommand { get; set; }
-        private INoteRepository NoteRepository;
+        private IRepository<Note> NoteRepository;
 
-        public NoteViewModel(INoteRepository noteRepository)
+        public NoteViewModel(IRepository<Note> noteRepository)
         {
             name = string.Empty;
             NoteRepository = noteRepository;
-            Notes = new ObservableCollection<Note>(NoteRepository.GetNotes());
+            Notes = new ObservableCollection<Note>(NoteRepository.All());
             CreateNoteCommand = new Command<string>(CreateNote, IsValidName);
             DeleteNoteCommand = new Command<Note>(DeleteNote);
         }
@@ -33,7 +33,7 @@ namespace Notes.ViewModels
         {
             var note = new Note { Name = name.Trim(), LastModified = DateTime.Now.ToString(), Content = string.Empty };
             NewNoteName = string.Empty;
-            NoteRepository.SaveNote(note);
+            NoteRepository.Save(note);
             Notes.Add(note);
         }
 
@@ -49,7 +49,7 @@ namespace Notes.ViewModels
         private void DeleteNote(Note note)
         {
             Notes.Remove(note);
-            NoteRepository.DeleteNote(note);
+            NoteRepository.Delete(note);
         }
     }
 }

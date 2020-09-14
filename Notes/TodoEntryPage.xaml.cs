@@ -19,13 +19,13 @@ namespace Notes
             if (name.Length > 0)
             {
                 Todo todo = BindingContext as Todo;
-                todo.AddTask(new Task(name));
+                todo.Tasks.Add(name);
             }
         }
 
         private void RemoveTappedItem(object sender, ItemTappedEventArgs e)
         {
-            ((Todo)BindingContext).RemoveTask(e.Item as Task);
+            ((Todo)BindingContext).Tasks.Remove(e.Item as string);
         }
     }
 }

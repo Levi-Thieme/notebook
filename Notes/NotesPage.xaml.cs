@@ -7,9 +7,9 @@ namespace Notes
 {
     public partial class NotesPage : ContentPage
     {
-        INoteRepository NoteRepository;
+        IRepository<Note> NoteRepository;
 
-        public NotesPage(INoteRepository noteRepository)
+        public NotesPage(IRepository<Note> noteRepository)
         {
             InitializeComponent();
             BindingContext = new NoteViewModel(noteRepository);
@@ -18,11 +18,7 @@ namespace Notes
 
         private void NoteSelected(object sender, ItemTappedEventArgs e)
         {
-            Navigation.PushAsync(new NoteEntryPage
-            {
-                NoteRepository = NoteRepository,
-                BindingContext = e.Item as Note
-            });
+            Navigation.PushAsync(new NoteEntryPage(NoteRepository, e.Item as Note));
         }
     }
 }

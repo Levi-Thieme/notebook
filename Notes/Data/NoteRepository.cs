@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace Notes.Data
 {
-    public class NoteRepository : INoteRepository
+    public class NoteRepository : IRepository<Note>
     {
         private readonly SQLiteConnection database;
         private readonly TableQuery<Note> notes;
@@ -19,12 +19,12 @@ namespace Notes.Data
             notes = database.Table<Note>();
         }
 
-        public IEnumerable<Note> GetNotes()
+        public IEnumerable<Note> All()
         {
             return notes.ToList();
         }
 
-        public void SaveNote(Note note)
+        public void Save(Note note)
         {
             note.LastModified = DateTime.Now.ToString();
             if (notes.FirstOrDefault(n => n.Name == note.Name) != null)
@@ -33,7 +33,7 @@ namespace Notes.Data
                 database.Insert(note);
         }
 
-        public void DeleteNote(Note note)
+        public void Delete(Note note)
         {
             database.Delete(note);
         }

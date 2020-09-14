@@ -1,23 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using SQLite;
+using System;
+using System.Collections.Generic;
 
 namespace Notes.Models
 {
-    public class Todo : Note
+    public class Todo
     {
-        public List<Task> Tasks { get; set; }
+        [PrimaryKey]
+        public string Name { get; set; }
+        public string LastModified { get; set; }
+        public List<string> Tasks { get; set; }
 
         public Todo()
         {
-            Tasks = new List<Task>();
-        }
-        public void RemoveTask(Task task)
-        {
-            Tasks.Remove(task);
+            Name = string.Empty;
+            LastModified = DateTime.Now.ToString();
+            Tasks = new List<string>();
         }
 
-        public void AddTask(Task task)
+        public Todo(string name)
         {
-            Tasks.Add(task);
+            Name = name;
+            LastModified = DateTime.Now.ToString();
+            Tasks = new List<string>();
         }
     }
 }
