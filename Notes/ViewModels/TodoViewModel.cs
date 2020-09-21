@@ -1,29 +1,18 @@
 ﻿using Notes.Data;
 using Notes.Models;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
-using Xamarin.Forms;
 
 namespace Notes.ViewModels
 {
-    public class TodoViewModel : ViewModelBase
+    public class TodoViewModel
     {
-        public ObservableCollection<Todo> Todos { get; set; }
-        public ICommand CreateTodoCommand { get; set; }
+        public Todo Todo { get; set; }
+
         private IRepository<Todo> TodoRepository;
 
-        public TodoViewModel(IRepository<Todo> todoRepository)
+        public TodoViewModel(Todo todo, IRepository<Todo> todoRepository)
         {
+            Todo = todo;
             TodoRepository = todoRepository;
-            CreateTodoCommand = new Command<string>(CreateTodo);
-            Todos = new ObservableCollection<Todo>(TodoRepository.All());
-        }
-
-        private void CreateTodo(string name)
-        {
-            var todo = new Todo(name);
-            TodoRepository.Save(todo);
-            Todos.Add(todo);
         }
     }
 }

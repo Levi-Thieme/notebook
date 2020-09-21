@@ -19,6 +19,7 @@ namespace Notes
         {
             var tabbedPage = new TabbedPage();
             tabbedPage.Children.Add(CreateNotesPage());
+            tabbedPage.Children.Add(CreateTodosPage());
             return tabbedPage;
         }
 
@@ -26,8 +27,16 @@ namespace Notes
         {
             var notesRepository = new NoteRepository();
             var notesPage = new NotesPage(notesRepository);
-            var page = new NavigationPage(notesPage) { Title = notesPage.Title };
-            return page;
+            var notesNavigationPage = new NavigationPage(notesPage) { Title = notesPage.Title };
+            return notesNavigationPage;
+        }
+
+        private Page CreateTodosPage()
+        {
+            var todoRepository = new TodoRepository();
+            var todoPage = new TodosPage(todoRepository);
+            var todosNavigationPage = new NavigationPage(todoPage) { Title = todoPage.Title };
+            return todosNavigationPage;
         }
 
         private void RegisterRepositoryDependencies()

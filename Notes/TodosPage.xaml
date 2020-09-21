@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Notes.TodosPage">
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical">
+        <StackLayout Orientation="Horizontal" 
+                         HorizontalOptions="Center">
+            <Entry x:Name="NameEntry"
+                       Text="{Binding NewTodoName, Mode=TwoWay}"
+                       Placeholder="Name"
+                       WidthRequest="160"
+                       TextColor="Black"
+                       PlaceholderColor="Gray"/>
+            <Button Text="+ Note" 
+                        Command="{Binding CreateTodoCommand}"
+                        CommandParameter="{Binding NewTodoName}"
+                        BackgroundColor="DodgerBlue"
+                        BorderColor="Black"
+                        WidthRequest="80"
+                        BorderWidth="1"
+                        Margin="5"/>
+        </StackLayout>
+        <ListView   x:Name="listView"
+                        ItemsSource="{Binding Todos}"
+                        ItemTapped="TodoSelected"
+                        Margin="20"
+                        VerticalOptions="Start"
+                        HeightRequest="300">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Name}"
+                                  Detail="{Binding LastModified}"
+                                  TextColor="DodgerBlue"
+                                  DetailColor="Black">
+                        <TextCell.ContextActions>
+                            <MenuItem Command="{Binding Path=BindingContext.DeleteTodoCommand, Source={x:Reference Name=Todos}}" 
+                                          CommandParameter="{Binding .}" 
+                                          Text="Delete" 
+                                          IsDestructive="True"/>
+                        </TextCell.ContextActions>
+                    </TextCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -9,20 +9,20 @@ namespace Notes.Models
         [PrimaryKey]
         public string Name { get; set; }
         public string LastModified { get; set; }
-        public List<string> Tasks { get; set; }
+        public List<Task> Tasks { get; set; }
 
         public Todo()
         {
             Name = string.Empty;
             LastModified = DateTime.Now.ToString();
-            Tasks = new List<string>();
+            Tasks = new List<Task>();
         }
 
         public Todo(string name)
         {
             Name = name;
             LastModified = DateTime.Now.ToString();
-            Tasks = new List<string>();
+            Tasks = new List<Task>();
         }
     }
 }

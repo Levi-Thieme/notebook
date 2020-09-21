@@ -16,6 +16,7 @@ namespace Notes.Data
         {
             var databaseConnectionService = DependencyService.Get<IDatabaseConnection>();
             database = databaseConnectionService.Create();
+            database.CreateTable<Task>();
             database.CreateTable<Todo>();
             todos = database.Table<Todo>();
         }
