@@ -4,19 +4,21 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="Notes.TodoEntryPage"
+             x:Class="Notes.TasksPage"
              BackgroundColor="White"
-             Title="List">
+             Title="{Binding TodoName}">
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <Entry x:Name="taskEntry" 
+                       Text="{Binding NewTaskName, Mode=TwoWay}"
                        Placeholder="Task Name" 
                        WidthRequest="250" 
                        HorizontalOptions="StartAndExpand"
                        TextColor="Black"/>
-                <Button 
-                    Clicked="OnAddTaskButton_Clicked" 
+                <Button
+                    Command="{Binding CreateTaskCommand}"
+                    CommandParameter="{Binding NewTaskName}"
                     Text="Add" 
                     HorizontalOptions="End"
                     BackgroundColor="DodgerBlue"
@@ -24,17 +26,7 @@
                     BorderWidth="1"
                     Margin="5"/>
             </StackLayout>
-            <ListView x:Name="taskListView" ItemsSource="{Binding Tasks}"
-                      ItemTapped="RemoveTappedItem" 
-                      Margin="10">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout Orientation="Horizontal">
-                            <Label Text="{Binding Name}"/>
-                        </StackLayout>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <ListView ItemsSource="{Binding Names}" ItemTapped="ListView_ItemTapped"></ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

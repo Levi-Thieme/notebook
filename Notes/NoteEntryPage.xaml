@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Notes.NoteEntryPage"
              Title="{Binding Name}"
-             BackgroundColor="White"
-             NavigationPage.HasNavigationBar="False">
+             BackgroundColor="White">
     <Editor     
             Placeholder="Enter your note"
             VerticalOptions="Fill"

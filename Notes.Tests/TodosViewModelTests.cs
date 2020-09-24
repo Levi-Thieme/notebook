@@ -39,33 +39,54 @@ namespace Notes.Tests
 
                 Assert.IsNotNull(todoViewModel.Todos.FirstOrDefault(todo => todo.Name == "test"));
             }
+
+            [TestMethod]
+            public void ItSetsNewTodoNameToEmptyString()
+            {
+                todoViewModel.CreateTodoCommand.Execute("test");
+
+                Assert.AreEqual(string.Empty, todoViewModel.NewTodoName);
+            }
+
+            [TestMethod]
+            public void AndTheNameIsInvalid_ItDoesNotCreateTheTodo()
+            {
+                todoViewModel.Todos.Add(new Todo("existingTodo"));
+
+                Assert.IsFalse(todoViewModel.CreateTodoCommand.CanExecute("existingTodo"));
+                Assert.IsFalse(todoViewModel.CreateTodoCommand.CanExecute(null));
+                Assert.IsFalse(todoViewModel.CreateTodoCommand.CanExecute(string.Empty));
+                Assert.IsFalse(todoViewModel.CreateTodoCommand.CanExecute(" "));
+            }
         }
 
         [TestClass]
         public class WhenDeletingATodo : TodosViewModelTests
         {
+            private Todo TodoToDelete = new Todo { Name = "test" };
+
             [TestInitialize]
             new public void Initialize()
             {
                 mockTodoRepository = new Mock<IRepository<Todo>>();
-                mockTodoRepository.Setup(repo => repo.All()).Returns(new List<Todo> { new Todo("test") });
+                mockTodoRepository.Setup(repo => repo.All()).Returns(new List<Todo> { TodoToDelete });
                 todoViewModel = new TodosViewModel(mockTodoRepository.Object);
             }
 
             [TestMethod]
             public void ItIsDeleted()
             {
-                todoViewModel.DeleteTodoCommand.Execute("test");
+                todoViewModel.DeleteTodoCommand.Execute(TodoToDelete);
 
-                mockTodoRepository.Verify(repo => repo.Delete(It.Is<Todo>(todo => todo.Name == "test")));
+                mockTodoRepository.Verify(repo => repo.Delete(TodoToDelete));
             }
 
             [TestMethod]
             public void ItIsRemovedFromTodos()
             {
-                todoViewModel.DeleteTodoCommand.Execute("test");
+                todoViewModel.DeleteTodoCommand.Execute(TodoToDelete);
 
-                Assert.IsNull(todoViewModel.Todos.FirstOrDefault(todo => todo.Name == "test"));
+                Assert.IsFalse(todoViewModel.Todos.Contains(TodoToDelete));
             }
         }
     }

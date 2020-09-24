@@ -11,9 +11,9 @@ namespace Notes
 
         public NotesPage(IRepository<Note> noteRepository)
         {
-            InitializeComponent();
             BindingContext = new NoteViewModel(noteRepository);
             NoteRepository = noteRepository;
+            InitializeComponent();
         }
 
         private void NoteSelected(object sender, ItemTappedEventArgs e)

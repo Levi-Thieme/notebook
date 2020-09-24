@@ -21,13 +21,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="TasksPage.xaml.cs">
+      <DependentUpon>TasksPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="NoteEntryPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="NotesPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="TodoEntryPage.xaml">
+    <EmbeddedResource Update="TasksPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="TodosPage.xaml">
