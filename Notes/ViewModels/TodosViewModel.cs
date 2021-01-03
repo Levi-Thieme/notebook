@@ -32,9 +32,9 @@ namespace Notes.ViewModels
         private void CreateTodo(string name)
         {
             var todo = new Todo(name);
-            TodoRepository.Save(todo);
             Todos.Add(todo);
             NewTodoName = string.Empty;
+            TodoRepository.Save(todo);
         }
 
         private bool IsValidName(string name)

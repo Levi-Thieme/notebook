@@ -39,6 +39,7 @@ namespace Notes.Data
 
         public void Delete(Todo todo)
         {
+            tasks.Delete(task => task.TodoName == todo.Name);
             database.Delete(todo);
         }
 

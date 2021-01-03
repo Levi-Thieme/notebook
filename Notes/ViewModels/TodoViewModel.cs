@@ -47,10 +47,10 @@ namespace Notes.ViewModels
 
         private void CreateTask(string name)
         {
-            TodoRepository.CreateTask(TodoName, name);
             Tasks.Add(new Task(TodoName, name));
             Names.Add(name);
             NewTaskName = string.Empty;
+            TodoRepository.CreateTask(TodoName, name);
         }
 
         private bool IsValidName(string name)

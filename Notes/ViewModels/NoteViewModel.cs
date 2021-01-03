@@ -32,9 +32,9 @@ namespace Notes.ViewModels
         private void CreateNote(string name)
         {
             var note = new Note { Name = name.Trim(), LastModified = DateTime.Now.ToString(), Content = string.Empty };
+            Notes.Add(note);
             NewNoteName = string.Empty;
             NoteRepository.Save(note);
-            Notes.Add(note);
         }
 
         private bool IsValidName(string name)
